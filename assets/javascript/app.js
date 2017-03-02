@@ -1,4 +1,5 @@
-  /*browser:true*/
+
+ /*-----do not delete, erase when done <--------- browser:true*/
   "use strict";
   var timeRemaining = 0;
   var questionObject;
@@ -9,7 +10,8 @@
   var remainingQuestions = [ {
       q: "what is the color of the moon?",
       answer: [ "Gray", "Blue", "Red", "Green" ],
-      correct: "Gray"
+      correct: "Gray",
+
     }, {
       q: "where does batman live?",
       answer: [ "Gotham", "New York", "LA", "Atlanta" ],
@@ -34,8 +36,10 @@
   ];
 
   function incrementTimer() {
+    $("#time-remaining-text").text("Time Remaining: ");
+
     timer = setTimeout( function () {
-      $( '#timer' ).text( timeRemaining );
+      $("#timer").text( timeRemaining );
       if ( timeRemaining <= 0 ) {
         //unanswered
         unanswered.push( questionObject );
@@ -56,13 +60,16 @@
   }
 
   function askQuestion() {
+
     if ( remainingQuestions.length <= 0 ) {
       // you done
       clearTimeout(timer);
       alert (" you got correct: " + rightAnswers.length);
       alert (" you got wrong: " + wrongAnswers.length);
       alert (" you got unanswered: " + unanswered.length);
-    } else {
+    } 
+
+    else { ///while there are still questions remaining
       startTimer();
       $( '#containerForChoiceOptions' ).html( "" );
       questionObject = remainingQuestions.pop();
@@ -84,10 +91,19 @@
         choice.click( function () {
           //alert("I GUESSED "+ this.innerHTML);
           if ( this.innerHTML === questionObject.correct ) {
+            
+
+          //print you are correct on screen 
+          //display image connected to the question
+
             alert( "YAY" );
             rightAnswers.push( questionObject );
             askQuestion();
           } else {
+
+            //print sorry you're wrong. "The correct answer was ..." on screen
+            //display image connected to the question 
+
             alert( "boo!" );
             wrongAnswers.push( questionObject );
             askQuestion();
@@ -96,4 +112,31 @@
       }
     }
   }
-  askQuestion();
+
+//start screen will have button with event listener
+$(document).ready(function(){
+
+
+
+//...
+
+
+
+
+
+
+
+ $(".start").on("click", function(){
+
+  //when button is clicked, it will disappear
+   $("button").remove();
+      askQuestion();
+     })
+})
+
+
+//todos: 
+  // when question goes unanswered, or is answered - correct or incorrect -- show corresponding image
+  //make choice links 'do something when hovered over'
+  //add text to final tally page
+  //add start over? button
