@@ -6,7 +6,7 @@ var remainingQandAs = [
 
     }, {
       question: "Who did Michael get engaged to before leaving Scranton?",
-      answers: [ "Marie", "Jan", "Carol", "Angela" ],
+      answers: [ "Marie", "Jan", "Carol", "Holly" ],
       correctAnswer: "Holly"
     }, {
       question: "How did Michael burn his foot?",
@@ -101,7 +101,8 @@ function startAgain(){
   //creates start over button
   var startOverButton = $("<button>");
   startOverButton.text("Start Over?");
-  $("#final-score").append(startOverButton);
+  startOverButton.attr("id", "restart");
+  $("#restart-box").append(startOverButton);
 
 
   $("button").on("click", function(){
@@ -120,7 +121,6 @@ function startAgain(){
 //posts current question in accompanying div
 function askQuestion(){
 
-  //when total length of all arrays = 5
   
   currentQandA = remainingQandAs.pop();
   $("#current-question").text(currentQandA.question);
@@ -143,11 +143,11 @@ function displayChoices(){
   }
 } 
 
-var images = ["https://media.giphy.com/media/EpHT6msQPAKE8/giphy.gif", 
-        "https://media.giphy.com/media/B8laVxoaaUyCA/giphy.gif",
-        "https://media.giphy.com/media/baBWucq2gY0HS/giphy.gif",
-        "https://media.giphy.com/media/ToMjGpx9F5ktZw8qPUQ/giphy.gif",
-        "https://media.giphy.com/media/BuBz6V1s1dVC0/giphy.gif"
+var images = ["assets/images/image0.gif", 
+        "assets/images/image1.gif",
+        "assets/images/image2.gif",
+        "assets/images/image3.gif",
+        "assets/images/image4.gif"
         ];
 
 var currentImage;
@@ -174,7 +174,7 @@ function resumeGame(){
 
 function restartTimer() {
     clearTimeout( timer );
-    timeRemaining = 5; // in seconds
+    timeRemaining = 10; // in seconds
     initiateTimer();
 }
 
@@ -199,7 +199,7 @@ function initiateTimer(){
           resumeGame(); 
     } 
 
-    }, 500);
+    }, 1000);
 }
 
 
@@ -221,40 +221,3 @@ $(document).ready(function(){
   });
 
 });
-
-
-        //question/ans obj wil be pushed into already-asked array
-
-  ///when user clicks a choice
-    //the timer pauses  
-
-      //if the answer is correct
-        //answer gets pushed into correct answers array
-        //message will say "you're right!"
-        //corresponding image will show
-    //after a few seconds timer restarts ---does this mean I'm putting my restartTimer into a setTimeout? still stumped on this
-      //a question with 4 choices will show
-        //question/ans obj wil be pushed into already-asked array
-        
-
-      //if the answer is incorrect
-        //answer gets pushed into incorrect answers array
-      //message will say "sorry wrong answer!"
-        //corresponding image will show
-    //after a few seconds timer restarts
-      //a question with 4 choices will show
-        //question/ans obj wil be pushed into already-asked array
-
-      //if time runs out and user did not click an answer
-        //'something' gets pushed into unanswered array --- can you give me a suggestion on how to capture no user input?
-      //message will say "time's up!"
-        //corresponding image will show 
-    //after a few seconds timer restarts
-
-  ///if there are no questions left
-    //the timer pauses
-    //the amount in correct, incorrect and unanswered questions/ans array will be counted
-    //then displayed
-    //a button will ask 'start over?'
-      //perhaps button will have same function as start button
-
