@@ -1,142 +1,260 @@
-
- /*-----do not delete, erase when done <--------- browser:true*/
-  "use strict";
-  var timeRemaining = 0;
-  var questionObject;
-  var timer;
-  var rightAnswers = [];
-  var wrongAnswers = [];
-  var unanswered = [];
-  var remainingQuestions = [ {
-      q: "what is the color of the moon?",
-      answer: [ "Gray", "Blue", "Red", "Green" ],
-      correct: "Gray",
+var remainingQandAs = [ 
+  {
+      question: "what is the color of the moon?",
+      answers: [ "Orange", "Blue", "Gray", "Green" ],
+      correctAnswer: "Gray",
 
     }, {
-      q: "where does batman live?",
-      answer: [ "Gotham", "New York", "LA", "Atlanta" ],
-      correct: "Gotham"
+      question: "where does batman live?",
+      answers: [ "La", "New York", "Gotham", "Atlanta" ],
+      correctAnswer: "Gotham"
     }, {
-      q: "what is 2 + 2?",
-      answer: [ "4", "7", "8", "12" ],
-      correct: "4"
+      question: "what is 2 + 2?",
+      answers: [ "4", "7", "8", "12" ],
+      correctAnswer: "4"
     }, {
-      q: "what is the microsoft logo?",
-      answer: [ "window", "f", "mermaid", "triangle" ],
-      correct: "window"
-    },
-
-
-    {
-      q: "what is the shape of a wheel?",
-      answer: [ "circle", "square", "hexagon", "rectangle" ],
-      correct: "circle"
+      question: "what is the microsoft logo?",
+      answers: [ "green", "f", "window", "triangle" ],
+      correctAnswer: "window"
+    }, {
+      question: "what is the shape of a wheel?",
+      answers: [ "circle", "square", "hexagon", "rectangle" ],
+      correctAnswer: "circle"
     }
 
   ];
 
-  function incrementTimer() {
+var timeRemaining = 0;
+var timer;
+var restart;
+var choices;
+var pause;
+var currentQandA;
+var rightAnswers = [];
+var wrongAnswers = [];
+var unanswered = [];
+
+//in progress....
+  function displayResultsPage(){
+    $("#current-question").empty();
+      $("#choices-container").empty();
+      selectImage();
+  }
+
+
+//event delegation to evaluate user clicks 
+ $(document).on("click", "span", calculateChoice);
+  
+  function calculateChoice() {
+    //time is paused when user selects a choice
+    clearTimeout(timer);
+      
+    //captures what user clicked
+      var userChoice = $(this).attr("data-name");
+      
+      //evaluates...
+      if ( userChoice == currentQandA.correctAnswer ) {
+        displayResultsPage();
+        //stores obj into right array
+        rightAnswers.push(currentQandA);
+      $("#results-box").text("YES. That's absolutely right!");
+      resumeGame();
+    } else if(userChoice !== currentQandA.correctAnswer){
+      displayResultsPage();
+      $("#results-box").text("Nope, nope & nope.");
+      //stores obj into right array
+      wrongAnswers.push(currentQandA);
+      resumeGame();
+    } 
+  
+  }
+
+
+//in progress.... building a general game function
+function startGame(){
+  //stops game when all (5) questions have been asked..
+  if((unanswered.length + rightAnswers.length + wrongAnswers.length) == 5){
+    //stop timer(s)
+    clearTimeout(timer);
+    clearTimeout(pause);
+
+    //empty current question
+    $("#current-question").empty();
+    //display results page
+    var gameOver = $("#final-score")
+    .html("Well. I bet you're glad this is over..." + 
+      "<br>Here's how you did..." + "<br>" + 
+      "Correct Answers: " + rightAnswers.length + "<br>" +
+      "Incorrect: " + wrongAnswers.length + "<br>" + 
+      "Didn't bother to click: " + unanswered.length);
+
+    startAgain();
+
+  } else {
+    askQuestion();
+    displayChoices();
+    }
+}
+
+function startAgain(){
+  
+  //creates start over button
+  var startOverButton = $("<button>");
+  startOverButton.text("Start Over?");
+  $("#final-score").append(startOverButton);
+
+
+  $("button").on("click", function(){
+
+
+    //when button is clicked, it will disappear
+    $("button").remove();
+    
+//page will refresh
+  location.reload();
+
+  });
+
+}
+
+//posts current question in accompanying div
+function askQuestion(){
+
+  //when total length of all arrays = 5
+  
+  currentQandA = remainingQandAs.pop();
+  $("#current-question").text(currentQandA.question);
+  // console.log(currentQandA);
+  // console.log(remainingQandAs.length);
+}
+
+
+
+
+function displayChoices(){
+  choices = currentQandA.answers;
+      
+    for ( var i = 0; i < choices.length; i++ ) {
+        var choice = $("<span>");
+        choice.text(choices[i]);
+    choice.attr("id", "choice-" + i );
+        choice.attr("data-name", choices[i] );
+        $("#choices-container").append(choice);
+  }
+} 
+
+var images = ["assets/images/image0.jpg", 
+        "assets/images/image1.jpg",
+        "assets/images/image2.jpg",
+        "assets/images/image3.jpg",
+        "assets/images/image4.jpg"
+        ];
+
+var currentImage;
+
+function selectImage(){
+   currentImage = images.pop();
+  $("#image-container").append("<img src='" + currentImage + "'>")
+}
+
+function resumeGame(){
+
+  pause = setTimeout(function (){ //should be called resumeGame func with other elements like askquestion, display choices
+  restartTimer(); 
+  startGame();
+  $("#results-box").empty();
+  //empty right , unanswered or wrong message, and picture
+  $("#image-container").empty();
+
+  }, 3000); 
+  //console.log("Total length: " + );
+}
+
+
+
+function restartTimer() {
+    clearTimeout( timer );
+    timeRemaining = 5; // in seconds
+    initiateTimer();
+}
+
+function initiateTimer(){
+
+  //text that says Time-Remaining:
     $("#time-remaining-text").text("Time Remaining: ");
 
-    timer = setTimeout( function () {
+    
+   //seconds left
+   timer = setTimeout(function () {
       $("#timer").text( timeRemaining );
-      if ( timeRemaining <= 0 ) {
-        //unanswered
-        unanswered.push( questionObject );
-        alert( 'Time is UP' );
-        askQuestion();
-      } else {
-        timeRemaining = timeRemaining - 1;
-        incrementTimer();
-      }
+      timeRemaining = timeRemaining - 1;
+      initiateTimer();
 
-    }, 1000 );
-  }
-
-  function startTimer() {
-    clearTimeout( timer );
-    timeRemaining = 10; // in seconds
-    incrementTimer();
-  }
-
-  function askQuestion() {
-
-    if ( remainingQuestions.length <= 0 ) {
-      // you done
-      clearTimeout(timer);
-      alert (" you got correct: " + rightAnswers.length);
-      alert (" you got wrong: " + wrongAnswers.length);
-      alert (" you got unanswered: " + unanswered.length);
+      //stops timer at 0
+      if ( timeRemaining <= -1 ) {
+          clearTimeout(timer);
+          displayResultsPage();
+      $("#results-box").text("Hey.. Are you there?");
+          unanswered.push(currentQandA);
+          resumeGame(); 
     } 
 
-    else { ///while there are still questions remaining
-      startTimer();
-      $( '#containerForChoiceOptions' ).html( "" );
-      questionObject = remainingQuestions.pop();
-      //var answer = prompt( question.q );
-      // if ( answer === question.answer )
-      //   rightAnswers.push( question );
-      // else
-      //   wrongAnswers.push( question );
-      //   
-      var choices = questionObject.answer;
-      $( '#asked-question' ).html( questionObject.q );
-      for ( var i = 0; i < choices.length; i++ ) {
-        var choice = $( '<div>' );
-        choice.text( choices[ i ] );
-        choice.attr( 'id', "choice-" + i );
-        choice.attr( 'index', i );
-        $( '#containerForChoiceOptions' ).append( choice );
+    }, 1000);
+}
 
-        choice.click( function () {
-          //alert("I GUESSED "+ this.innerHTML);
-          if ( this.innerHTML === questionObject.correct ) {
-            
 
-          //print you are correct on screen 
-          //display image connected to the question
-
-            alert( "YAY" );
-            rightAnswers.push( questionObject );
-            askQuestion();
-          } else {
-
-            //print sorry you're wrong. "The correct answer was ..." on screen
-            //display image connected to the question 
-
-            alert( "boo!" );
-            wrongAnswers.push( questionObject );
-            askQuestion();
-          }
-        } );
-      }
-    }
-  }
-
-//start screen will have button with event listener
+//// when document loads
 $(document).ready(function(){
 
-
-
-//...
-
-
-
-
-
-
-
+ //waiting for user to click button to start
  $(".start").on("click", function(){
 
-  //when button is clicked, it will disappear
-   $("button").remove();
-      askQuestion();
-     })
-})
+    //when button is clicked, it will disappear
+    $("button").remove();
+    
+  //timer will start
+  restartTimer();
+
+  startGame();
+
+  
+  });
+
+});
 
 
-//todos: 
-  // when question goes unanswered, or is answered - correct or incorrect -- show corresponding image
-  //make choice links 'do something when hovered over'
-  //add text to final tally page
-  //add start over? button
+        //question/ans obj wil be pushed into already-asked array
+
+  ///when user clicks a choice
+    //the timer pauses  
+
+      //if the answer is correct
+        //answer gets pushed into correct answers array
+        //message will say "you're right!"
+        //corresponding image will show
+    //after a few seconds timer restarts ---does this mean I'm putting my restartTimer into a setTimeout? still stumped on this
+      //a question with 4 choices will show
+        //question/ans obj wil be pushed into already-asked array
+        
+
+      //if the answer is incorrect
+        //answer gets pushed into incorrect answers array
+      //message will say "sorry wrong answer!"
+        //corresponding image will show
+    //after a few seconds timer restarts
+      //a question with 4 choices will show
+        //question/ans obj wil be pushed into already-asked array
+
+      //if time runs out and user did not click an answer
+        //'something' gets pushed into unanswered array --- can you give me a suggestion on how to capture no user input?
+      //message will say "time's up!"
+        //corresponding image will show 
+    //after a few seconds timer restarts
+
+  ///if there are no questions left
+    //the timer pauses
+    //the amount in correct, incorrect and unanswered questions/ans array will be counted
+    //then displayed
+    //a button will ask 'start over?'
+      //perhaps button will have same function as start button
+
