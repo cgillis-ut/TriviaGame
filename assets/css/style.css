@@ -1,3 +1,29 @@
 body{
 	background-color: #ff7272;
 }
+
+.image1{
+	background-image: url('assets/images/image1.jpg');
+}
+.image2{}
+.image3{}
+.image4{}
+.image5{}
+
+span{
+	display: block;
+	background-color: #8e9294;
+	font-size: 17px;
+	color: white;
+	height: 50px;
+	width: 150px;
+	overflow: hidden;
+	font-family: "Courier";
+	margin: 20px 0px;
+	text-align: center;
+	padding-top: 30px;
+}
+
+#time-remaining-text{
+	float: left;
+}
