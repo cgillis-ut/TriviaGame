@@ -89,7 +89,7 @@ function startGame(){
       "Didn't bother to click: " + unanswered.length);
 
     startAgain();
-
+ 
   } else {
     askQuestion();
     displayChoices();
