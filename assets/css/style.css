@@ -1,10 +1,12 @@
 body {
   background-color: #191f26;
+  font-family: 'Gentium Basic', serif;
+  font-size: 24px;
+  color: white;
 }
 	
 .h1, .h2{
 		font-family: 'Poiret One', cursive;
-		margin-left: 30%;
 		color: #eff0f2;
 
 }
@@ -20,7 +22,6 @@ body {
 .start{
 	font-family: 'Raleway', sans-serif;
 	font-size: 30px;
-	margin-left: 40%;
   background: #4363ad;
   background-image: -webkit-linear-gradient(top, #4363ad, #095f94);
   background-image: -moz-linear-gradient(top, #4363ad, #095f94);
@@ -39,6 +40,11 @@ body {
   text-decoration: none;
 }
 
+img{
+	width: 400px;
+	height: 400px;
+}
+
 .start:hover {
   background: #3cb0fd;
   text-decoration: none;
@@ -46,7 +52,7 @@ body {
 
 }
 span{
-	display: block;
+	display: inline-block;
 	background-color: #8e9294;
 	font-size: 17px;
 	color: white;
@@ -59,6 +65,7 @@ span{
 	padding-top: 30px;
 }
 
-#time-remaining-text{
-	float: left;
+#main-container{
+	margin: 5%;
+	text-align: center;
 }

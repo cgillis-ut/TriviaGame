@@ -1,25 +1,25 @@
 var remainingQandAs = [ 
   {
-      question: "what is the color of the moon?",
-      answers: [ "Orange", "Blue", "Gray", "Green" ],
-      correctAnswer: "Gray",
+      question: "Who had a reputation of being a crass alcoholic?",
+      answers: [ "Stanley", "Phyllis", "Creed", "Meredith" ],
+      correctAnswer: "Meredith",
 
     }, {
-      question: "where does batman live?",
-      answers: [ "La", "New York", "Gotham", "Atlanta" ],
-      correctAnswer: "Gotham"
+      question: "Who did Michael get engaged to before leaving Scranton?",
+      answers: [ "Marie", "Jan", "Carol", "Angela" ],
+      correctAnswer: "Holly"
     }, {
-      question: "what is 2 + 2?",
-      answers: [ "4", "7", "8", "12" ],
-      correctAnswer: "4"
+      question: "How did Michael burn his foot?",
+      answers: [ "George Forman Grill", "Rolling Rotisserie", "Toaster", "Microwave Oven" ],
+      correctAnswer: "George Forman Grill"
     }, {
-      question: "what is the microsoft logo?",
-      answers: [ "green", "f", "window", "triangle" ],
-      correctAnswer: "window"
+      question: "Which country did Toby take a not-so permanent vacation in?",
+      answers: [ "Mexico", "Puerto Rico", "Fiji", "Costa Rica" ],
+      correctAnswer: "Costa Rica"
     }, {
-      question: "what is the shape of a wheel?",
-      answers: [ "circle", "square", "hexagon", "rectangle" ],
-      correctAnswer: "circle"
+      question: "What is the name of Andy Bernard's a cappella group?",
+      answers: [ "Pitch Perfect", "En Vogue", "Here Comes Treble", "Chord on Blues" ],
+      correctAnswer: "Here Comes Treble"
     }
 
   ];
@@ -143,11 +143,11 @@ function displayChoices(){
   }
 } 
 
-var images = ["assets/images/image0.jpg", 
-        "assets/images/image1.jpg",
-        "assets/images/image2.jpg",
-        "assets/images/image3.jpg",
-        "assets/images/image4.jpg"
+var images = ["https://media.giphy.com/media/EpHT6msQPAKE8/giphy.gif", 
+        "https://media.giphy.com/media/B8laVxoaaUyCA/giphy.gif",
+        "https://media.giphy.com/media/baBWucq2gY0HS/giphy.gif",
+        "https://media.giphy.com/media/ToMjGpx9F5ktZw8qPUQ/giphy.gif",
+        "https://media.giphy.com/media/BuBz6V1s1dVC0/giphy.gif"
         ];
 
 var currentImage;
@@ -199,7 +199,7 @@ function initiateTimer(){
           resumeGame(); 
     } 
 
-    }, 1000);
+    }, 500);
 }
 
 
