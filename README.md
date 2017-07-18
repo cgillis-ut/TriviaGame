@@ -4,6 +4,9 @@
 ## Install
 Want to test your knowledge of the hit TV show 'The Office'? Simply hit the green 'clone or download' button on this page, then run ```index.html``` locally.
 
+OR 
+
+you can visit here https://peaceful-everglades-82801.herokuapp.com/
 ## Usage
 
 Here's how the app runs: 
