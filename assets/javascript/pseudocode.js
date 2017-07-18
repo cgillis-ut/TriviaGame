@@ -1,12 +1,12 @@
 var remainingQandAs = [ 
 	{
       question: "what is the color of the moon?",
-      answers: [ "Gray", "Blue", "Red", "Green" ],
+      answers: [ "Orange", "Blue", "Gray", "Green" ],
       correctAnswer: "Gray",
 
     }, {
       question: "where does batman live?",
-      answers: [ "Gotham", "New York", "LA", "Atlanta" ],
+      answers: [ "La", "New York", "Gotham", "Atlanta" ],
       correctAnswer: "Gotham"
     }, {
       question: "what is 2 + 2?",
@@ -14,7 +14,7 @@ var remainingQandAs = [
       correctAnswer: "4"
     }, {
       question: "what is the microsoft logo?",
-      answers: [ "window", "f", "mermaid", "triangle" ],
+      answers: [ "green", "f", "window", "triangle" ],
       correctAnswer: "window"
     }, {
       question: "what is the shape of a wheel?",
@@ -38,14 +38,10 @@ var unanswered = [];
 	function displayResultsPage(){
 		$("#current-question").empty();
 	    $("#choices-container").empty();
-	    // createImage();
 	    selectImage();
 	}
 
 
-	
-
-//in progress....
 //event delegation to evaluate user clicks 
  $(document).on("click", "span", calculateChoice);
 	
@@ -61,11 +57,11 @@ var unanswered = [];
 	    	displayResultsPage();
 	    	//stores obj into right array
 	    	rightAnswers.push(currentQandA);
-			$("#results-box").text("you're correct!");
+			$("#results-box").text("YES. That's absolutely right!");
 			resumeGame();
 		} else if(userChoice !== currentQandA.correctAnswer){
 			displayResultsPage();
-			$("#results-box").text("sorry! You're wrong!");
+			$("#results-box").text("Nope, nope & nope.");
 			//stores obj into right array
 			wrongAnswers.push(currentQandA);
 			resumeGame();
@@ -76,16 +72,62 @@ var unanswered = [];
 
 //in progress.... building a general game function
 function startGame(){
-	askQuestion();
-	displayChoices();
+	//stops game when all (5) questions have been asked..
+	if((unanswered.length + rightAnswers.length + wrongAnswers.length) == 5){
+		//stop timer(s)
+		clearTimeout(timer);
+		clearTimeout(pause);
+
+		//empty current question
+		$("#current-question").empty();
+		//display results page
+		var gameOver = $("#final-score")
+		.html("Well. I bet you're glad this is over..." + 
+			"<br>Here's how you did..." + "<br>" + 
+			"Correct Answers: " + rightAnswers.length + "<br>" +
+			"Incorrect: " + wrongAnswers.length + "<br>" + 
+			"Didn't bother to click: " + unanswered.length);
+
+		startAgain();
+
+	} else {
+		askQuestion();
+		displayChoices();
+	  }
+}
+
+function startAgain(){
+	
+	//creates start over button
+	var startOverButton = $("<button>");
+	startOverButton.text("Start Over?");
+	$("#final-score").append(startOverButton);
+
+
+	$("button").on("click", function(){
+
+
+  	//when button is clicked, it will disappear
+   	$("button").remove();
+   	
+//page will refresh
+	location.reload();
+
+  });
+
 }
 
 //posts current question in accompanying div
 function askQuestion(){
+
+	//when total length of all arrays = 5
+	
 	currentQandA = remainingQandAs.pop();
 	$("#current-question").text(currentQandA.question);
-	console.log(currentQandA.question);
+	// console.log(currentQandA);
+	// console.log(remainingQandAs.length);
 }
+
 
 
 
@@ -98,59 +140,43 @@ function displayChoices(){
 		choice.attr("id", "choice-" + i );
         choice.attr("data-name", choices[i] );
         $("#choices-container").append(choice);
-        //<div id="choices-container">
-        	//<span id="choice-1" data-name="gray"></span>
-       	//</div>
-
-
-
 	}
 }	
 
-var images = ["assets/images/image1.jpg", 
+var images = ["assets/images/image0.jpg", 
+			  "assets/images/image1.jpg",
 			  "assets/images/image2.jpg",
 			  "assets/images/image3.jpg",
-			  "assets/images/image4.jpg",
-			  "assets/images/image5.jpg"
+			  "assets/images/image4.jpg"
 			  ];
 
-var correspondingImage;
 var currentImage;
 
 function selectImage(){
 	 currentImage = images.pop();
-	$("#image-container").append("<img src='assets/images/image'" + i + "'.jpg'>")
+	$("#image-container").append("<img src='" + currentImage + "'>")
 }
 
-// function createImage() {
-// 	for(var i = 1; i < images.length; i++ ){
-//         // correspondingImage = currentQandA.image;
-//         var image = $("<img>");
-//         image.attr("src", "assets/images/image" + i + ".jpg");
-//         $("#image-box").append(image); ///if this doesn't work go back to "#image-container", but remember to empty when needed
-// 	//**todo: <div id="image-container">
-//         	//<img src="assets/images/image+i"> 
-//         //</div>
-// 	}
-// }
-
-
-
-
 function resumeGame(){
+
  	pause = setTimeout(function (){ //should be called resumeGame func with other elements like askquestion, display choices
 	restartTimer(); 
 	startGame();
 	$("#results-box").empty();
 	//empty right , unanswered or wrong message, and picture
+	$("#image-container").empty();
+
 	}, 3000); 
+	//console.log("Total length: " + );
 }
+
+
 
 function restartTimer() {
     clearTimeout( timer );
-    timeRemaining = 3; // in seconds
+    timeRemaining = 5; // in seconds
     initiateTimer();
-  }
+}
 
 function initiateTimer(){
 
@@ -164,10 +190,6 @@ function initiateTimer(){
       timeRemaining = timeRemaining - 1;
       initiateTimer();
 
-      	//while timer is running..do something
-      	// askQuestion(); &
-      	// displayChoices(); need to be paired
-
     	//stops timer at 0
     	if ( timeRemaining <= -1 ) {
        	  clearTimeout(timer);
@@ -180,38 +202,48 @@ function initiateTimer(){
     }, 1000);
 }
 
-// restartTimer();
-
-
-// if ( timeRemaining <= 0 ) {
-  //       //unanswered
-  //       unanswered.push( questionObject );
-  //       alert( 'Time is UP' );
-        
-  //         askQuestion();
-      
-  //     } else {
-       
-      // }
-
 
 //// when document loads
 $(document).ready(function(){
 
-	//there will be a title ' Totally Trivial Trivia' &
-	//start button
-
+ //waiting for user to click button to start
  $(".start").on("click", function(){
 
-  //when button is clicked, it will disappear
-   $("button").remove();
-   	//timer will start
-restartTimer();
-askQuestion();
-displayChoices();
-     });
+  	//when button is clicked, it will disappear
+   	$("button").remove();
+   	
+	//timer will start
+	restartTimer();
+
+	startGame();
+
+	
+  });
+
 });
 
+
+
+
+
+// pseudocode.js:83 Object {question: "what is the shape of a wheel?", answers: Array[4], correctAnswer: "circle"}
+// pseudocode.js:84 4
+
+
+
+// pseudocode.js:83 Object {question: "what is the microsoft logo?", answers: Array[4], correctAnswer: "window"}
+// pseudocode.js:84 3
+
+
+
+// pseudocode.js:83 Object {question: "what is 2 + 2?", answers: Array[4], correctAnswer: "4"}
+// pseudocode.js:84 2
+
+
+// pseudocode.js:83 Object {question: "where does batman live?", answers: Array[4], correctAnswer: "Gotham"}
+// pseudocode.js:84 1
+// pseudocode.js:83 Object {question: "what is the color of the moon?", answers: Array[4], correctAnswer: "Gray"}
+// pseudocode.js:84 0
 //a question with 4 choices will show
 
   			//question/ans obj wil be pushed into already-asked array
