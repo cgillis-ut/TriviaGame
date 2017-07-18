@@ -2,7 +2,7 @@
  
 
 ## Install
-Want to test your knowledge of The Office? Simply hit the green 'clone or download' button on this page, then run ```index.html``` locally.
+Want to test your knowledge of the hit TV show 'The Office'? Simply hit the green 'clone or download' button on this page, then run ```index.html``` locally.
 
 ## Usage
 
